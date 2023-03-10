@@ -1,0 +1,72 @@
+﻿@page
+@model Employee_Management_System.Pages.EmployeePage.GetAllModel
+<span class="text-primary">
+    <a href="/Index" class=" text-decoration-none">Home</a>
+    &nbsp;&nbsp;&nbsp;>>&nbsp;&nbsp;&nbsp;
+    <a href="/EmployeePage/GetAll" class=" text-decoration-none">Employee</a>
+    &nbsp;&nbsp;&nbsp;>>&nbsp;&nbsp;&nbsp;
+</span>
+<div class="container p-3">
+    <div class="pt-4">
+        <div class="col-12 row">
+            <div class="col-6">
+                <h2 class="text-primary">Employee Details</h2>
+            </div>
+            <div class="col-6 text-end">
+                <a asp-page="/EmployeePage/AddEmployee" class="btn btn-primary">
+                    <i class="bi bi-plus-lg"></i>
+                </a>
+            </div>
+        </div>
+    </div><br />
+    <div class="col-12 row mb-3 ms-3">
+        <div class="text-end">
+            <input id="search" type="text" placeholder="Search here" class="w-25" />
+        </div>
+    </div>
+    <table class="table table-bordered table-striped table-light" style="width:100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Date Of Birth</th>
+                <th>Department</th>
+            </tr>
+        </thead>
+        <tbody id="data">
+            @foreach (var item in Model.employeeModel)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Email</td>
+                    <td>@item.BirthDate</td>
+                    <td>@item.Department</td>
+                    
+                    <td>
+                        <div class="w-50 btn-group" role="group">
+                            <a asp-page="/EmployeePage/EditEmployee" asp-route-userId="@item.Id" class="btn btn-primary mx-1">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a asp-page="/EmployeePage/DeleteEmployee" asp-route-userId="@item.Id" class="btn btn-primary mx-1">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#search").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#data tr").filter(function () {
+                    $(this).toggle($(this).text()
+                        .toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+}
